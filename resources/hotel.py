@@ -1,11 +1,50 @@
 from flask_restful import Resource, reqparse
 from models.Hotel import HotelModel
+import sqlite3
+
+# Passar alguns filtros via path
+# path /hoteis?cidade=Rio de Janeiro&csat=4&diaria_max=400
+path_params = reqparse.RequestParser()
+path_params.add_argument('cidade', type=str)
+path_params.add_argument('csat_min', type=float)
+path_params.add_argument('csat_max', type=float)
+path_params.add_argument('diaria_min', type=float)
+path_params.add_argument('diaria_max', type=float)
+path_params.add_argument('limit', type=float)
+path_params.add_argument('offset', type=float)
+
+def normalize_path_params(cidade=None, csat_min=0, csat_max=5,
+                          diaria_min=0, diaria_max=10000,
+                          limit=50, offset=0, **dados):
+    # Funcao que estabelece os valores default para os parametros da requisicao GET
+    if cidade:return {
+        'csat_min': csat_min,
+        'csat_max': csat_max,
+        'diaria_min':diaria_min,
+        'diaria_max':diaria_max,
+        'cidade':cidade,
+        'limit':limit,
+        'offset':offset
+    }
+    return{
+        'csat_min': csat_min,
+        'csat_max': csat_max,
+        'diaria_min': diaria_min,
+        'diaria_max': diaria_max,
+        'limit': limit,
+        'offset': offset
+    }
 
 # Obrigar login para realziar algumas operacoes com hoteis
 from flask_jwt_extended import jwt_required
 
 class Hoteis(Resource):
     def get(self):
+        dados = path_params.parse_args()
+        # filtrar os dados validos
+        dados_validos = {key: dados[key] for key in dados \
+                            if dados[key] is not None}
+
         return {'hoteis': [hoteis.json() for hoteis in HotelModel.query.all()]} # SELECT * FROM hoteis
 
 class Hotel(Resource):
