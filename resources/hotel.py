@@ -17,35 +17,64 @@ def normalize_path_params(cidade=None, csat_min=0, csat_max=5,
                           diaria_min=0, diaria_max=10000,
                           limit=50, offset=0, **dados):
     # Funcao que estabelece os valores default para os parametros da requisicao GET
-    if cidade:return {
+    if cidade:
+        return {
         'csat_min': csat_min,
         'csat_max': csat_max,
         'diaria_min':diaria_min,
         'diaria_max':diaria_max,
         'cidade':cidade,
         'limit':limit,
-        'offset':offset
-    }
+        'offset':offset}
     return{
         'csat_min': csat_min,
         'csat_max': csat_max,
         'diaria_min': diaria_min,
         'diaria_max': diaria_max,
         'limit': limit,
-        'offset': offset
-    }
+        'offset': offset}
 
 # Obrigar login para realziar algumas operacoes com hoteis
 from flask_jwt_extended import jwt_required
 
 class Hoteis(Resource):
     def get(self):
+        connection = sqlite3.connect('banco.db')
+        cursor = connection.cursor()
+
         dados = path_params.parse_args()
         # filtrar os dados validos
         dados_validos = {key: dados[key] for key in dados \
                             if dados[key] is not None}
 
-        return {'hoteis': [hoteis.json() for hoteis in HotelModel.query.all()]} # SELECT * FROM hoteis
+        parametros = normalize_path_params(**dados_validos)
+
+        if not parametros.get('cidade'):
+            str_aux = " "
+        else:
+            str_aux = "AND (cidade = ?)"
+
+        consulta =  "SELECT * " \
+                    "FROM hoteis " \
+                    "WHERE 1=1 " \
+                    "AND (csat > ? AND csat < ?) " \
+                    "AND (diaria > ? AND diaria < ?) " \
+                    + str_aux + \
+                    "LIMIT ? OFFSET ?"
+
+        tupla = tuple([parametros[value] for value in parametros])
+        resultado = cursor.execute(consulta, tupla)
+
+        hoteis = []
+        for linha in resultado:
+            hoteis.append({
+                'hotel_id':linha[0],
+                'nome':linha[1],
+                'csat':linha[2],
+                'diaria':linha[3],
+                'cidade':linha[4]
+            })
+        return {'hoteis': hoteis} # SELECT * FROM hoteis
 
 class Hotel(Resource):
     argumentos = reqparse.RequestParser()
