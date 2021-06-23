@@ -1,6 +1,7 @@
 from flask_restful import Resource, reqparse
 from models.hotel import HotelModel
 from resources.filtros import normalize_path_params
+from resources.site import SiteModel
 import database.scripts as datascripts
 
 import sqlite3
@@ -49,7 +50,8 @@ class Hoteis(Resource):
                 'nome':linha[1],
                 'csat':linha[2],
                 'diaria':linha[3],
-                'cidade':linha[4]
+                'cidade':linha[4],
+                'site_id':linha[5]
             })
         return {'hoteis': hoteis} # SELECT * FROM hoteis
 
@@ -64,6 +66,7 @@ class Hotel(Resource):
     argumentos.add_argument('csat', type=float)
     argumentos.add_argument('diaria', type=float)
     argumentos.add_argument('cidade', type=str)
+    argumentos.add_argument('site_id', type=int, required=True, help="Every hotel needs to be linked with a site.")
 
     def get(self, hotel_id):
         hotel = HotelModel.find_hotel(hotel_id)
@@ -80,6 +83,9 @@ class Hotel(Resource):
         dados = Hotel.argumentos.parse_args()
         # Instanciando um objeto hotel
         hotel = HotelModel(hotel_id, **dados)
+
+        if not SiteModel.find_site_by_id(dados['site_id']):
+            return {"message":"The hotel must be associated to a valid site id."}, 400
 
         try:
             # Insere/ salva hotel no banco de dados

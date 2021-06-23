@@ -1,0 +1,435 @@
+{
+	"info": {
+		"_postman_id": "d565c3f1-5e45-4b5c-9796-3e64e5288e18",
+		"name": "REST API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/hoteis",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/hoteis?csat_min=3&cidade=Rio de Janeiro",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"hoteis"
+					],
+					"query": [
+						{
+							"key": "csat_min",
+							"value": "3"
+						},
+						{
+							"key": "cidade",
+							"value": "Rio de Janeiro"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/sites",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/sites",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"sites"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/sites/{url}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/sites/www.meusite.com",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"sites",
+						"www.meusite.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/sites/{url}",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Conten",
+						"value": "application/j",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:5000/sites/www.booking.com",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"sites",
+						"www.booking.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/sites/{url}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/sites/www.meusite.com",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"sites",
+						"www.meusite.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/hoteis/{hotel_id}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/hoteis/alpha",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"hoteis",
+						"alpha"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/hoteis/{hotel_id}",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Conte",
+						"value": "application/j",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTYyNDMxNzI0MiwianRpIjoiYzRmMGE0NGQtMWI3OS00ZWRhLWI2M2UtNDQ0OGYyODcyYzkzIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MywibmJmIjoxNjI0MzE3MjQyLCJleHAiOjE2MjQzMTgxNDJ9.mW0zVObNEzKpzS9xZPEQOrj5hwXUhGDMnv8AIe7-50c",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nome\": \"Adora Hotel\",\n    \"csat\": 3.5,\n    \"diaria\": 155.98,\n    \"cidade\": \"Itupeva\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/hoteis/adora",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"hoteis",
+						"adora"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/hoteis/{hotel_id}",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTYyNDQwMzY4NywianRpIjoiMWY1Zjc1ZGQtOWMzOS00ZTg5LWJhODAtMTA0ZjNkODBjNGU4IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MywibmJmIjoxNjI0NDAzNjg3LCJleHAiOjE2MjQ0MDQ1ODd9.sxkO-qo_6KiiPELy1tOVOCiyMRnM915C4SevrYy-FqQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nome\": \"Araguaia Motel \",\n    \"csat\": 3.6,\n    \"diaria\": 90.52,\n    \"cidade\": \"Santa Catarina\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/hoteis/araguaia",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"hoteis",
+						"araguaia"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/hoteis/{hotel_id}",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTYyNDMxNzI0MiwianRpIjoiYzRmMGE0NGQtMWI3OS00ZWRhLWI2M2UtNDQ0OGYyODcyYzkzIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MywibmJmIjoxNjI0MzE3MjQyLCJleHAiOjE2MjQzMTgxNDJ9.mW0zVObNEzKpzS9xZPEQOrj5hwXUhGDMnv8AIe7-50c",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:5000/hoteis/alpha",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"hoteis",
+						"alpha"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/usuarios/{user_id}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/usuarios/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"usuarios",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/usuarios/{user_id}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/usuarios/6",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"usuarios",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Conte",
+						"value": "application/j",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"login\":\"joao.santos\",\n    \"senha\":\"141516\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/login?=",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"login"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/logout",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Conten",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTYyNDMxODk4MiwianRpIjoiYTc3ZDJlNTYtZjNkZS00MWRlLTljYzAtOGNlMDU5Y2E1YmU5IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MywibmJmIjoxNjI0MzE4OTgyLCJleHAiOjE2MjQzMTk4ODJ9.peguFFfB1zwQrjdK34UIx6sbGmKwnIKqyMC7usAmYzg",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:5000/logout",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/cadastro",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"login\":\"joao.santos\",\n    \"senha\":\"141516\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/cadastro",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"cadastro"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
