@@ -1,5 +1,8 @@
 from flask_restful import Resource, reqparse
-from models.Hotel import HotelModel
+from models.hotel import HotelModel
+from resources.filtros import normalize_path_params
+import database.scripts as datascripts
+
 import sqlite3
 
 # Passar alguns filtros via path
@@ -13,26 +16,6 @@ path_params.add_argument('diaria_max', type=float)
 path_params.add_argument('limit', type=float)
 path_params.add_argument('offset', type=float)
 
-def normalize_path_params(cidade=None, csat_min=0, csat_max=5,
-                          diaria_min=0, diaria_max=10000,
-                          limit=50, offset=0, **dados):
-    # Funcao que estabelece os valores default para os parametros da requisicao GET
-    if cidade:
-        return {
-        'csat_min': csat_min,
-        'csat_max': csat_max,
-        'diaria_min':diaria_min,
-        'diaria_max':diaria_max,
-        'cidade':cidade,
-        'limit':limit,
-        'offset':offset}
-    return{
-        'csat_min': csat_min,
-        'csat_max': csat_max,
-        'diaria_min': diaria_min,
-        'diaria_max': diaria_max,
-        'limit': limit,
-        'offset': offset}
 
 # Obrigar login para realziar algumas operacoes com hoteis
 from flask_jwt_extended import jwt_required
@@ -49,20 +32,14 @@ class Hoteis(Resource):
 
         parametros = normalize_path_params(**dados_validos)
 
-        if not parametros.get('cidade'):
-            str_aux = " "
-        else:
-            str_aux = "AND (cidade = ?)"
-
-        consulta =  "SELECT * " \
-                    "FROM hoteis " \
-                    "WHERE 1=1 " \
-                    "AND (csat > ? AND csat < ?) " \
-                    "AND (diaria > ? AND diaria < ?) " \
-                    + str_aux + \
-                    "LIMIT ? OFFSET ?"
+        consulta = datascripts.consulta_hoteis(parametros.get('cidade'))
 
         tupla = tuple([parametros[value] for value in parametros])
+
+        print(parametros)
+
+        print(consulta)
+
         resultado = cursor.execute(consulta, tupla)
 
         hoteis = []
