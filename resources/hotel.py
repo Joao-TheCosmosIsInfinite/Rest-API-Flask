@@ -37,10 +37,6 @@ class Hoteis(Resource):
 
         tupla = tuple([parametros[value] for value in parametros])
 
-        print(parametros)
-
-        print(consulta)
-
         resultado = cursor.execute(consulta, tupla)
 
         hoteis = []
@@ -93,7 +89,7 @@ class Hotel(Resource):
         except:
             return {'message': 'An internal error ocurred trying to save'}, 500
 
-        return hotel.json(), 200
+        return hotel.json(), 201
 
     @jwt_required()
     def put(self, hotel_id):

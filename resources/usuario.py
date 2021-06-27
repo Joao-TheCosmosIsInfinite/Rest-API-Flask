@@ -62,7 +62,7 @@ class UserLogin(Resource):
 
         if user and safe_str_cmp(user.senha, dados['senha']):
             token_acesso = create_access_token(identity=user.user_id)
-            return {'acces_toke': token_acesso}, 200
+            return {'access_toke': token_acesso}, 200
         return {'message':'The username or password is incorrect.'}, 401
 
 
