@@ -2,8 +2,8 @@ from sql_alchemy import banco
 from flask import request, url_for
 from requests import post
 
-MAILGUN_DOMAIN ="sandbox368c902c6c66476ea2fcde82284cd0a7.mailgun.org"
-MAILGUN_API_KEY = "d2bb5ab8f5d112a5ba9fc28e87507a3c-1f1bd6a9-8baf7bef"
+MAILGUN_DOMAIN ="example"
+MAILGUN_API_KEY = "example"
 FROM_TITLE = "NO-REPLY"
 FROM_EMAIL = "no-reply@restapihoteis.com"
 
