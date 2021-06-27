@@ -1,23 +1,49 @@
 from sql_alchemy import banco
+from flask import request, url_for
+from requests import post
+
+MAILGUN_DOMAIN ="sandbox368c902c6c66476ea2fcde82284cd0a7.mailgun.org"
+MAILGUN_API_KEY = "d2bb5ab8f5d112a5ba9fc28e87507a3c-1f1bd6a9-8baf7bef"
+FROM_TITLE = "NO-REPLY"
+FROM_EMAIL = "no-reply@restapihoteis.com"
 
 # A Classe e definida como uma tabela no banco de dados
 class UserModel(banco.Model):
     __tablename__='usuarios'
 
     user_id = banco.Column(banco.Integer, primary_key=True)
-    login = banco.Column(banco.String(40))
-    senha = banco.Column(banco.String(40))
+    login = banco.Column(banco.String(40), nullable=False, unique=True)
+    senha = banco.Column(banco.String(40), nullable=False)
+    email = banco.Column(banco.String(80), nullable=False, unique=True)
+    ativado = banco.Column(banco.Boolean, default=False)
 
-    def __init__(self, login, senha):
+    def __init__(self, login, senha, email, ativado):
         self.login = login
         self.senha = senha
+        self.email = email
+        self.ativado = ativado
         # O id nao sera incluido, com isso o sqlalchemy ira incrementar automaticamente
 
     def json(self):
         return {
             'user_id':self.user_id,
-            'login':self.login
+            'login':self.login,
+            'email':self.email,
+            'ativado':self.ativado
         }
+    def send_confirmation_email(self):
+        # Endereco/ link
+        link = request.url_root[:-1] + url_for('userconfirm', user_id=self.user_id)
+        return post('https://api.mailgun.net/v3/{}/messages'.format(MAILGUN_DOMAIN),
+                    auth=('api', MAILGUN_API_KEY),
+                    data={'from': "{} <{}>".format(FROM_TITLE, FROM_EMAIL),
+                          'to':self.email,
+                          'subject':'Confirmacao Cadastro',
+                          'text': 'Confirme o seu cadastro clicando no link a seguir: {}'.format(link),
+                          'html': '<html><p>\
+                            Confirme o seu cadastro clicando no link a seguir: <a href={}>CONFIRMAR EMAIL</a>\
+                            </p></html>'.format(link)}
+                    )
 
     # Metodo de Classe
     @classmethod
@@ -32,6 +58,14 @@ class UserModel(banco.Model):
     def find_by_login(cls, login):
         # metodo da classe que extendo o banco model, nesse caso sql_alchemy.model
         user = cls.query.filter_by(login=login).first()
+        if user:
+            return user
+        return None
+
+    @classmethod
+    def find_by_email(cls, email):
+        # metodo da classe que extendo o banco model, nesse caso sql_alchemy.model
+        user = cls.query.filter_by(email=email).first()
         if user:
             return user
         return None
